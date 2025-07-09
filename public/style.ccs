@@ -1,0 +1,31 @@
+:root {
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --primary-color: #e4c590; /* Gold Accent */
+    --text-color: #e0e0e0;
+    --subtle-text-color: #a0a0a0;
+    --font-body: 'Cormorant Garamond', serif;
+    --font-ui: 'Montserrat', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-ui); display: flex; height: 100vh; overflow: hidden; }
+#app-container { display: flex; width: 100%; }
+#control-panel { width: 350px; background-color: var(--surface-color); padding: 30px; display: flex; flex-direction: column; border-right: 1px solid #2a2a2a; overflow-y: auto; }
+.logo { font-family: var(--font-ui); font-weight: 700; font-size: 24px; color: var(--primary-color); text-align: center; margin-bottom: 40px; }
+.logo span { font-weight: 300; color: var(--text-color); display: block; font-size: 14px; margin-top: 4px; }
+.control-group { margin-bottom: 25px; }
+.control-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; color: var(--subtle-text-color); text-transform: uppercase; }
+.control-group input, .control-group textarea { width: 100%; background-color: var(--bg-color); border: 1px solid #333; border-radius: 5px; padding: 12px; color: var(--text-color); font-family: var(--font-ui); font-size: 14px; transition: border-color 0.3s, box-shadow 0.3s; }
+.control-group input:focus, .control-group textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 10px rgba(228, 197, 144, 0.2); }
+.control-group textarea { min-height: 120px; resize: vertical; }
+.main-button { width: 100%; padding: 15px; background: linear-gradient(45deg, var(--primary-color), #b89b6c); color: #121212; border: none; border-radius: 5px; font-family: var(--font-ui); font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: auto; }
+.main-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(228, 197, 144, 0.3); }
+.main-button:disabled { background: #555; color: #888; cursor: not-allowed; }
+#novel-area { flex-grow: 1; padding: 40px 60px; overflow-y: auto; }
+#novel-content { max-width: 800px; margin: 0 auto; }
+.chapter { margin-bottom: 60px; border-bottom: 1px solid #333; padding-bottom: 40px; }
+.chapter h2 { font-family: var(--font-body); font-size: 36px; font-weight: 700; color: var(--primary-color); margin-bottom: 25px; }
+.chapter p { font-family: var(--font-body); font-size: 18px; line-height: 1.8; color: var(--text-color); white-space: pre-wrap; }
+#loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 18, 18, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000; flex-direction: column; color: var(--primary-color); font-size: 18px; }
+.spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
