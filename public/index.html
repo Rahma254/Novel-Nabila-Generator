@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabila Ahmad Studio Novel Production</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app-container">
+        <!-- Panel Kontrol -->
+        <aside id="control-panel">
+            <div class="logo">
+                Nabila Ahmad
+                <span>Studio Novel Production</span>
+            </div>
+
+            <div class="control-group">
+                <label for="novel-title">Judul Novel</label>
+                <input type="text" id="novel-title" placeholder="Cahaya di Ujung Senja">
+            </div>
+
+            <div class="control-group">
+                <label for="novel-synopsis">Sinopsis / Premis</label>
+                <textarea id="novel-synopsis" placeholder="Seorang pelukis yang kehilangan kemampuannya melihat warna..."></textarea>
+            </div>
+
+            <div class="control-group">
+                <label for="novel-genre">Genre & Gaya</label>
+                <input type="text" id="novel-genre" placeholder="Fantasi Romantis, gaya puitis dan deskriptif">
+            </div>
+
+            <button id="generate-btn" class="main-button">Buat Bab Selanjutnya</button>
+        </aside>
+
+        <!-- Area Tampilan Novel -->
+        <main id="novel-area">
+            <div id="novel-content">
+                <!-- Bab-bab novel akan muncul di sini -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Loader Overlay -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>AI sedang merangkai kata... Mohon tunggu sejenak.</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
