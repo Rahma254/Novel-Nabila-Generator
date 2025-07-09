@@ -1,55 +1,57 @@
-// File: api/generate.js
+// File: api/generate.js (Versi untuk OpenRouter)
 
 export default async function handler(req, res) {
-    // 1. Hanya izinkan metode POST
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    // 2. Ambil Kunci API dari Environment Variable yang aman
-    //    ==== INI BAGIAN YANG DIPERBAIKI ====
-    const API_KEY = process.env.GEMINI_API_KEY; 
+    // 1. Ambil Kunci API OpenRouter dari Environment Variable
+    const API_KEY = process.env.OPENROUTER_API_KEY; 
     
-    const MODEL_NAME = 'gemini-1.5-pro-latest';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+    // 2. Tentukan model GRATIS yang ingin Anda gunakan dari OpenRouter
+    // Contoh: 'mistralai/mistral-7b-instruct' atau 'google/gemini-flash-1.5'
+    const MODEL_NAME = 'mistralai/mistral-7b-instruct';
 
-    // Logika pengecekan API Key Anda sudah benar
+    // 3. URL endpoint untuk OpenRouter
+    const url = 'https://openrouter.ai/api/v1/chat/completions';
+
     if (!API_KEY) {
-        return res.status(500).json({ error: 'API Key tidak dikonfigurasi di server.' });
+        return res.status(500).json({ error: 'API Key OpenRouter tidak dikonfigurasi di server.' });
     }
 
     try {
-        // 3. Ambil prompt yang dikirim dari frontend
         const { prompt } = req.body;
 
         if (!prompt) {
             return res.status(400).json({ error: 'Prompt tidak ditemukan dalam permintaan.' });
         }
 
-        // 4. Siapkan dan kirim permintaan ke Google AI
-        const headers = { 'Content-Type': 'application/json' };
+        // 4. Siapkan permintaan dengan format yang mirip OpenAI
+        const headers = { 
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json' 
+        };
         const body = JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-                temperature: 0.7,
-                topK: 1,
-                topP: 1,
-                maxOutputTokens: 4096,
-            }
+            model: MODEL_NAME,
+            messages: [
+                { "role": "user", "content": prompt }
+            ],
+            // Anda bisa tambahkan parameter lain seperti temperature, max_tokens, dll.
+            // max_tokens: 4096, 
         });
 
         const apiResponse = await fetch(url, { method: 'POST', headers, body });
+        const data = await apiResponse.json();
 
         if (!apiResponse.ok) {
-            const errorData = await apiResponse.json();
-            console.error('Google AI API Error:', errorData);
-            throw new Error(`API Error: ${apiResponse.status} - ${JSON.stringify(errorData.error)}`);
+            console.error('OpenRouter API Error:', data);
+            // Error dari OpenRouter biasanya ada di dalam `data.error.message`
+            throw new Error(`API Error: ${apiResponse.status} - ${data.error.message || JSON.stringify(data)}`);
         }
 
-        const data = await apiResponse.json();
-        
         // 5. Ekstrak teks dan kirim kembali ke frontend
-        const newChapterText = data.candidates[0].content.parts[0].text;
+        // Format respons OpenRouter mirip dengan OpenAI
+        const newChapterText = data.choices[0].message.content;
         res.status(200).json({ newChapterText: newChapterText });
 
     } catch (error) {
