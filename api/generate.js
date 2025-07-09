@@ -7,10 +7,13 @@ export default async function handler(req, res) {
     }
 
     // 2. Ambil Kunci API dari Environment Variable yang aman
-    const API_KEY = process.env.GOOGLE_API_KEY;
+    //    ==== INI BAGIAN YANG DIPERBAIKI ====
+    const API_KEY = process.env.GEMINI_API_KEY; 
+    
     const MODEL_NAME = 'gemini-1.5-pro-latest';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
 
+    // Logika pengecekan API Key Anda sudah benar
     if (!API_KEY) {
         return res.status(500).json({ error: 'API Key tidak dikonfigurasi di server.' });
     }
